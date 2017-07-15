@@ -1,0 +1,17 @@
+{
+  "name": "xdesign",
+  "version": "1.0.0",
+  "description": "A tool for digesting XML data, populating into a database, providing a front-end and API endpoint for retreival of data through GET. Authentication is required.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Schofield (ChildishForces)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "mysql": "^2.13.0",
+    "pug": "^2.0.0-rc.2",
+    "xml2js": "^0.4.17"
+  }
+}
