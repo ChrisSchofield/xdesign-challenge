@@ -18,8 +18,14 @@ let connection = new dbClass(
   })
 )
 
-fs.readFile("./clientdata.xml", 'utf8', (err,xml) => { // Load the XML file to 'xml' variable. utf8 is required or the file will read as byes and what not.
-  if (err) throw err // throw an error in the case the parser can't digest the XML.
+function readLocalFile(xmlData) {
+  fs.readFile(xmlData, 'utf8', (err,xml) => { // Load the XML file to 'xml' variable. utf8 is required or the file will read as bytes.
+    if (err) throw err // throw an error in the case the parser can't digest the XML.
+    populate(xml)
+  })
+}
+
+function populate(xml) {
   x2j.parseString(xml, function (err, result) {
 
     xmlParsed = result.xml.Vehicle // let's keep this in memory in case we need it later.
@@ -48,6 +54,8 @@ fs.readFile("./clientdata.xml", 'utf8', (err,xml) => { // Load the XML file to '
           delete ctx[property]
         }
 
+        if (property == "has_gps" || property == "is_hgv") ctx[property] = (ctx[property] == "true" ? 1 : 0)
+
       }
 
       var uniqueIdentifier = extras.uuid()
@@ -63,12 +71,14 @@ fs.readFile("./clientdata.xml", 'utf8', (err,xml) => { // Load the XML file to '
       connection.putInfo("vehicles",ctx)
 
       if (vehicle == (xmlParsed.length - 1)) {
-        console.log("All vehicles scanned.");
+        console.log("All vehicles scanned.")
       }
 
     }
   })
-})
+}
+
+readLocalFile("./clientdata.xml")
 
 // TODO Check DB for duplicate entries.
 // TODO Start building API with Express + Router
