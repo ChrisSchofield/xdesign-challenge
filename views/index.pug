@@ -1,0 +1,195 @@
+if (auth)
+  html
+    head
+      title Vehicles
+      link(href="/public/semantic.css", rel="stylesheet")
+      link(href="/public/custom.css", rel="stylesheet")
+    body(style="padding-top:2em")
+
+      div.ui.fixed.inverted.menu
+        div.ui.container
+          a.header.item(href="/") Vehicles
+          //- a.header.item(href="/")= total
+          div.right.menu
+            div.item
+              form(method="GET",style="margin-bottom:0")
+                div.ui.transparent.inverted.icon.input
+                  i.search.icon
+                  input(type="text",name="s",placeholder="Search")
+      div.ui.three.column.doubling.stackable.grid.container
+        each vehicle, index in vehicles
+          div.column
+            div.ui.segment
+              table.ui.celled.table
+                tbody
+                  tr
+                    td Make
+                    td= vehicle.manufacturer
+                  tr
+                    td Model
+                    td= vehicle.model
+                  tr
+                    td License
+                    td= vehicle.license_plate
+                  tr
+                    td Colour
+                    td= vehicle.colour
+              div
+                div.ui.top.attached.tabular.menu
+                  a.active.item(data-tab="car" + index) Car Details
+                  a.item(data-tab="owner" + index) Owner
+                  a.item(data-tab="features" + index) Features
+                div.ui.bottom.attached.active.tab.segment(data-tab="car" + index)
+                  table.ui.celled.table
+                    tbody
+                      tr
+                        td Motor Type
+                        td= vehicle.type
+                      tr
+                        td Fuel Type
+                        td= vehicle.fuel_type
+                      tr
+                        td Transmission
+                        td= vehicle.transmission
+                      tr
+                        td Vehicle Usage
+                        td= vehicle.vehicleUsage
+                      tr
+                        td Weight Category
+                        td= vehicle.weight_category
+                      tr
+                        td Engine CC
+                        td= vehicle.engine_cc
+                div.ui.bottom.attached.tab.segment(data-tab="owner" + index)
+                  each owner in customers
+                    if (owner.uuid == vehicle.owner)
+                      table.ui.celled.table
+                        tbody
+                          tr
+                            td Name
+                            td= owner.name
+                          tr
+                            td Company
+                            td= owner.company
+                          tr
+                            td Profession
+                            td= owner.profession
+                div.ui.bottom.attached.tab.segment(data-tab="features" + index)
+                  table.ui.celled.table
+                    tbody
+                      tr
+                        td Boot
+                        td= (vehicle.has_boot == 1 ? "Included" : "Not included")
+                      tr
+                        td GPS
+                        td= (vehicle.has_gps == 1 ? "Included" : "Not included")
+                      tr
+                        td Trailer
+                        td= (vehicle.has_trailer == 1 ? "Included" : "Not included")
+                  table.ui.celled.table
+                    tbody
+                      tr
+                        td Number of Seats
+                        td= vehicle.no_seats
+                      tr
+                        td Number of Doors
+                        td= vehicle.no_doors
+                      tr
+                        td Number of Wheels
+                        td= vehicle.no_wheels
+      div
+        //- if (offset)
+        div.ui.container(style="padding:2em 0")
+          p.cf
+            if (offset)
+              //- Don't display previous if there is no previous
+              a.ui.button(href=(offset == 1 ? "/" : "/?p=" + (parseInt(offset) - 1)) + (search ? "&s=" + search : ""),style="float:left") Previous
+            if ((parseInt(offset) + 1) !== total)
+              //- Don't display more if there is nothing to display
+              a.ui.button.right.aligned(href=(!offset ? "/?p=1" : "/?p=" + (parseInt(offset) + 1)) + (search ? "&s=" + search : ""),style="float:right") Next
+
+
+      script(src="/public/jquery.js", type="text/javascript")
+      script(src="/public/semantic.js", type="text/javascript")
+      script(type="text/javascript").
+        $('.tabular.menu .item').tab({
+          context: 'parent',
+          childrenOnly: true
+        });
+else
+  html
+    head
+      title Vehicles
+      link(href="/public/semantic.css", rel="stylesheet")
+      style.
+        body {
+          background-color: #DADADA;
+        }
+        body > .grid {
+          height: 100%;
+        }
+        .image {
+          margin-top: -100px;
+        }
+        .column {
+          max-width: 600px;
+        }
+        .ui.message {
+          margin-top:1em!important; /*I know, I know.*/
+        }
+    body
+      div.ui.center.aligned.grid
+        div.column
+          div.ui.message
+            h3.ui.header.center.aligned Hello!
+            p This is an application, written in NodeJS, to digest XML, populate a database, provide a basic front-end for this data, and to provide an API to consume the data. There are a number of features I'd have liked to have added but didn't have time, as I had commitments I had to tend to, and couldn't use my whole weekend to do it.
+            p So first things first, the login credentials are:
+            table.ui.celled.table
+              thead
+                tr
+                  th Key
+                  th Value
+              tbody
+                tr
+                  td user
+                  td xDesign
+                tr
+                  td pass
+                  td PasswordExample
+            p These credentials are valid for both front &amp; back end, and share session data, so to log in to one is to log into the other. To authenticate using the API please use endpoint "/auth" and submit user &amp; pass in your post parameters.
+            table.ui.celled.table
+              thead
+                tr
+                  th Endpoint
+                  th HTTP Method
+                  th Expect
+              tbody
+                tr
+                  td /vehicles
+                  td GET
+                  td Array
+                tr
+                  td /vehicles/{id}
+                  td GET
+                  td Object
+                tr
+                  td /customers
+                  td GET
+                  td Array
+                tr
+                  td /customers/{id}
+                  td GET
+                  td Object
+          form.ui.large.form(method="post")
+            div.ui.segment
+              div.field
+                div.ui.left.icon.input
+                  i.user.icon
+                  input(type="text",name="user",placeholder="Username",required)
+              div.field
+                div.ui.left.icon.input
+                  i.user.icon
+                  input(type="password",name="pass",placeholder="Password",required)
+              button.ui.fluid.large.primary.submit.button Login
+            if (error)
+              div.ui.error.message= error

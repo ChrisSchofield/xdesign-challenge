@@ -9,9 +9,15 @@
   "author": "Chris Schofield (ChildishForces)",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "express-session": "^1.15.3",
     "mysql": "^2.13.0",
+    "passport": "^0.3.2",
+    "promise-mysql": "^3.0.2",
     "pug": "^2.0.0-rc.2",
+    "semantic-ui": "^2.2.11",
     "xml2js": "^0.4.17"
   }
 }
