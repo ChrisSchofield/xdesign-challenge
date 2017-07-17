@@ -4,7 +4,8 @@
   "description": "A tool for digesting XML data, populating into a database, providing a front-end and API endpoint for retreival of data through GET. Authentication is required.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
   },
   "author": "Chris Schofield (ChildishForces)",
   "license": "ISC",
