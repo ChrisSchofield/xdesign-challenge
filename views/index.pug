@@ -103,8 +103,8 @@ if (auth)
           p.cf
             if (offset)
               //- Don't display previous if there is no previous
-              a.ui.button(href=(offset == 1 ? "/" : "/?p=" + (parseInt(offset) - 1)) + (search ? "&s=" + search : ""),style="float:left") Previous
-            if ((parseInt(offset) + 1) !== total)
+              a.ui.button(href=(offset == 1 ? "/" : "/?p=" + (parseInt(offset) - 1)) + (search ? (offset == 1 ? "?" : "&") + "s=" + search : ""),style="float:left") Previous
+            if ((parseInt(offset) + 1) !== total && (total !== 1))
               //- Don't display more if there is nothing to display
               a.ui.button.right.aligned(href=(!offset ? "/?p=1" : "/?p=" + (parseInt(offset) + 1)) + (search ? "&s=" + search : ""),style="float:right") Next
 

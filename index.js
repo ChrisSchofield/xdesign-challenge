@@ -202,6 +202,7 @@ api.get('/', function (req, res) { // FRONT END
           total: Math.ceil(vehicleResponseAll.length / 6),
           search: searchQ
         })
+        console.log(Math.ceil(vehicleResponseAll.length / 6))
       })
     })
   })
